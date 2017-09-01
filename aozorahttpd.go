@@ -9,11 +9,12 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"time"
 )
 
-const AozorabunkoDir = "aozorabunko"
-const DefaultPort = 22222
+const DefaultContentDir = "content"
 const DefaultHost = "localhost"
+const DefaultPort = 22222
 
 func rootDir(path, contentDir string) string {
 	return filepath.Join(filepath.Dir(path), contentDir)
@@ -52,7 +53,7 @@ func doMain() int {
 		fmt.Println(err.Error())
 		return 1
 	}
-	rootDir := rootDir(path, AozorabunkoDir)
+	rootDir := rootDir(path, DefaultContentDir)
 	if _, err := os.Stat(rootDir); os.IsNotExist(err) {
 		fmt.Printf("コンテンツのディレクトリが見つかりませんでした\n")
 		return 1

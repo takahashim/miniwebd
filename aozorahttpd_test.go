@@ -11,7 +11,7 @@ func TestRootDir(t *testing.T) {
 		{"/tmp/foo/bar", "/tmp/foo/aozorabunko"},
 	}
 	for _, tt := range dirs {
-		if got, want := rootDir(tt.input), tt.result; got != want {
+		if got, want := rootDir(tt.input, "aozorabunko"), tt.result; got != want {
 			t.Errorf("rootDir(): got %v want %v", got, want)
 		}
 	}

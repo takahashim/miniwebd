@@ -7,24 +7,28 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 )
 
 const AozorabunkoDir = "aozorabunko"
-const OpenUrl = "http://localhost:22222/index.html"
+const DefaultPort = 22222
+const DefaultHost = "localhost"
 
-func rootDir(path string) string {
-	return filepath.Join(filepath.Dir(path), AozorabunkoDir)
+func rootDir(path, contentDir string) string {
+	return filepath.Join(filepath.Dir(path), contentDir)
 }
 
 func openBrowser() {
+	url := fmt.Sprintf("http://%s:%d/index.html", DefaultHost, DefaultPort)
+
 	switch runtime.GOOS {
 	case "linux":
-		exec.Command("xdg-open", OpenUrl).Start()
+		exec.Command("xdg-open", url).Start()
 	case "windows":
-		exec.Command("rundll32", "OpenUrl.dll,FileProtocolHandler", OpenUrl).Start()
+		exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
 	case "darwin":
-		exec.Command("open", OpenUrl).Start()
+		exec.Command("open", url).Start()
 	default:
 		fmt.Println("Your PC is not supported.")
 	}
@@ -58,7 +62,7 @@ func doMain() int {
 	doneCh := make(chan error)
 
 	go func() {
-		doneCh <- http.ListenAndServe(":22222", nil)
+		doneCh <- http.ListenAndServe(":"+strconv.Itoa(DefaultPort), nil)
 	}()
 
 	openBrowser()

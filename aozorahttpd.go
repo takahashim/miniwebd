@@ -61,7 +61,6 @@ func doMain() int {
 	}
 	http.Handle("/", removeCharset(http.FileServer(http.Dir(rootDir))))
 
-	//fmt.Println("RootDir: " + rootDir)
 	fmt.Println("aozorahttpd start...")
 
 	doneCh := make(chan error)

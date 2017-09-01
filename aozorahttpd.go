@@ -52,8 +52,11 @@ func doMain() int {
 		fmt.Println(err.Error())
 		return 1
 	}
-	rootDir := rootDir(path)
-
+	rootDir := rootDir(path, AozorabunkoDir)
+	if _, err := os.Stat(rootDir); os.IsNotExist(err) {
+		fmt.Printf("コンテンツのディレクトリが見つかりませんでした\n")
+		return 1
+	}
 	http.Handle("/", removeCharset(http.FileServer(http.Dir(rootDir))))
 
 	//fmt.Println("RootDir: " + rootDir)

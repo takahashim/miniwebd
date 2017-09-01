@@ -11,9 +11,35 @@ import (
 )
 
 const AozorabunkoDir = "aozorabunko"
+const OpenUrl = "http://localhost:22222/index.html"
 
 func rootDir(path string) string {
 	return filepath.Join(filepath.Dir(path), AozorabunkoDir)
+}
+
+func openBrowser() {
+	switch runtime.GOOS {
+	case "linux":
+		exec.Command("xdg-open", OpenUrl).Start()
+	case "windows":
+		exec.Command("rundll32", "OpenUrl.dll,FileProtocolHandler", OpenUrl).Start()
+	case "darwin":
+		exec.Command("open", OpenUrl).Start()
+	default:
+		fmt.Println("Your PC is not supported.")
+	}
+}
+
+func removeCharset(h http.Handler) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		header := w.Header()
+		fmt.Println(string(r.URL.Path))
+		if strings.HasSuffix(r.URL.Path, ".html") {
+			header.Del("Content-Type")
+			header.Add("Content-Type", "text/html")
+		}
+		h.ServeHTTP(w, r)
+	}
 }
 
 func doMain() int {
@@ -23,18 +49,6 @@ func doMain() int {
 		return 1
 	}
 	rootDir := rootDir(path)
-
-	removeCharset := func(h http.Handler) http.HandlerFunc {
-		return func(w http.ResponseWriter, r *http.Request) {
-			header := w.Header()
-			fmt.Println(string(r.URL.Path))
-			if strings.HasSuffix(r.URL.Path, ".html") {
-				header.Del("Content-Type")
-				header.Add("Content-Type", "text/html")
-			}
-			h.ServeHTTP(w, r)
-		}
-	}
 
 	http.Handle("/", removeCharset(http.FileServer(http.Dir(rootDir))))
 
@@ -47,18 +61,7 @@ func doMain() int {
 		doneCh <- http.ListenAndServe(":22222", nil)
 	}()
 
-	url := "http://localhost:22222/index.html"
-
-	switch runtime.GOOS {
-	case "linux":
-		exec.Command("xdg-open", url).Start()
-	case "windows":
-		exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
-	case "darwin":
-		exec.Command("open", url).Start()
-	default:
-		fmt.Println("Your PC is not supported.")
-	}
+	openBrowser()
 
 	<-doneCh
 

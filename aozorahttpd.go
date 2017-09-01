@@ -1,10 +1,10 @@
 package main
 
 import (
-	"os/exec"
 	"fmt"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -60,7 +60,7 @@ func doMain() int {
 		fmt.Println("Your PC is not supported.")
 	}
 
-	<- doneCh
+	<-doneCh
 
 	return 0
 }

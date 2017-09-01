@@ -38,7 +38,8 @@ func openBrowser() {
 func removeCharset(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		header := w.Header()
-		fmt.Println(string(r.URL.Path))
+		t := time.Now()
+		fmt.Printf("%s %s\n", t.Format("2006-01-02 15:04:05"), string(r.URL.Path))
 		if strings.HasSuffix(r.URL.Path, ".html") {
 			header.Del("Content-Type")
 			header.Add("Content-Type", "text/html")

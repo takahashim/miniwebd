@@ -1,6 +1,6 @@
 # miniwebd: mini web server
 
-Zero configuration web server for static contents.
+Zero configuration web server in local environment for static contents.
 
 [![GitHub release](https://img.shields.io/github/release/takahashim/miniwebd.svg)][release]
 [![MIT License](https://img.shields.io/github/license/takahashim/miniwebd.svg)][license]
@@ -12,7 +12,7 @@ Zero configuration web server for static contents.
 
 ## Usage
 
-1. Rename content directory as `html` or `htdocs` or `content`
+1. Rename content (root) directory as `html` or `htdocs` or `content`
 2. Copy the executable file `miniwebd` (or `miniwebd.exe` in Windows) in the same directory of content
 3. Execute (double clicking) `miniwebd`
 

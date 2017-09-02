@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -12,7 +13,8 @@ import (
 	"time"
 )
 
-const DefaultContentDir = "content"
+var DefaultContentDir = []string{"html", "htdocs", "content"}
+
 const DefaultHost = "localhost"
 const DefaultPort = 22222
 
@@ -48,14 +50,24 @@ func removeCharset(h http.Handler) http.HandlerFunc {
 	}
 }
 
+func findRootDir(path string, dirs []string) (string, error) {
+	for _, dir := range dirs {
+		rootDir := rootDir(path, dir)
+		if _, err := os.Stat(rootDir); err == nil {
+			return dir, nil
+		}
+	}
+	return "", errors.New("not found")
+}
+
 func doMain() int {
 	path, err := os.Executable()
 	if err != nil {
 		fmt.Println(err.Error())
 		return 1
 	}
-	rootDir := rootDir(path, DefaultContentDir)
-	if _, err := os.Stat(rootDir); os.IsNotExist(err) {
+	rootDir, err := findRootDir(path, DefaultContentDir)
+	if err != nil {
 		fmt.Printf("コンテンツのディレクトリが見つかりませんでした\n")
 		return 1
 	}

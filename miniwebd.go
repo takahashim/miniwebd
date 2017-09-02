@@ -61,6 +61,7 @@ func removeCharset(h http.Handler) http.HandlerFunc {
 			header.Add("Content-Type", "text/html")
 		}
 		if hasDotPrefix(r.URL.Path) {
+			Log(t.Format("2006-01-02 15:04:05") + " Error: not found " + string(r.URL.Path))
 			http.NotFound(w, r)
 		} else {
 			h.ServeHTTP(w, r)
@@ -72,7 +73,7 @@ func findRootDir(path string, dirs []string) (string, error) {
 	for _, dir := range dirs {
 		rootDir := rootDir(path, dir)
 		if _, err := os.Stat(rootDir); err == nil {
-			return dir, nil
+			return rootDir, nil
 		}
 	}
 	return "", errors.New("not found")
@@ -80,6 +81,7 @@ func findRootDir(path string, dirs []string) (string, error) {
 
 func doMain() int {
 	path, err := os.Executable()
+	Log("ExecutablePath: "+path)
 	if err != nil {
 		Log(err.Error())
 		return 1
@@ -89,6 +91,7 @@ func doMain() int {
 		Log("コンテンツのディレクトリが見つかりませんでした")
 		return 1
 	}
+	Log("rootDir: "+rootDir)
 	http.Handle("/", removeCharset(http.FileServer(http.Dir(rootDir))))
 
 	Log("サーバ起動中...")

@@ -19,9 +19,9 @@ func TestRootDir(t *testing.T) {
 	}
 }
 
-func TestHasDotPrefix(t *testing.T)  {
+func TestHasDotPrefix(t *testing.T) {
 	var pathes = []struct {
-		path string
+		path   string
 		result bool
 	}{
 		{"/tmp/foo/bar", false},
@@ -39,4 +39,3 @@ func TestHasDotPrefix(t *testing.T)  {
 		}
 	}
 }
-

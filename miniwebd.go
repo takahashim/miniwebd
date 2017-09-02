@@ -81,7 +81,7 @@ func findRootDir(path string, dirs []string) (string, error) {
 
 func doMain() int {
 	path, err := os.Executable()
-	Log("ExecutablePath: "+path)
+	Log("ExecutablePath: " + path)
 	if err != nil {
 		Log(err.Error())
 		return 1
@@ -91,7 +91,7 @@ func doMain() int {
 		Log("コンテンツのディレクトリが見つかりませんでした")
 		return 1
 	}
-	Log("rootDir: "+rootDir)
+	Log("rootDir: " + rootDir)
 	http.Handle("/", removeCharset(http.FileServer(http.Dir(rootDir))))
 
 	Log("サーバ起動中...")

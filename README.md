@@ -13,8 +13,8 @@ Zero configuration web server for static contents.
 ## Usage
 
 1. Rename content directory as `html` or `htdocs` or `content`
-2. Copy the file `miniwebd` (or `miniwebd.exe` in Windows) in the same directory of content
-3. Execute `iniwebd`
+2. Copy the executable file `miniwebd` (or `miniwebd.exe` in Windows) in the same directory of content
+3. Execute (double clicking) `miniwebd`
 
 ### Note
 

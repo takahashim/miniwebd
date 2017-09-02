@@ -7,4 +7,5 @@ jobs:
  steps:
       - checkout
       - run: go get github.com/takahashim/miniwebd
+      - run: go build github.com/takahashim/miniwebd
       - run: go test -v github.com/takahashim/miniwebd

@@ -18,3 +18,25 @@ func TestRootDir(t *testing.T) {
 		}
 	}
 }
+
+func TestHasDotPrefix(t *testing.T)  {
+	var pathes = []struct {
+		path string
+		result bool
+	}{
+		{"/tmp/foo/bar", false},
+		{"/tmp/foo/bar.txt", false},
+		{"/tmp/foo/bar.", false},
+		{"/.test/foo", true},
+		{"/test/.test/foo", true},
+		{"/test/...test/foo", true},
+		{"/test/foo/.bar", true},
+		{"/test/foo/.bar.txt", true},
+	}
+	for _, tt := range pathes {
+		if got, want := hasDotPrefix(tt.path), tt.result; got != want {
+			t.Errorf("hasDotPath(): got %v want %v", got, want)
+		}
+	}
+}
+

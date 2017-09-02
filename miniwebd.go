@@ -37,6 +37,16 @@ func openBrowser() {
 	}
 }
 
+func hasDotPrefix(path string) bool {
+	items := strings.Split(path, "/")
+	for _, item := range items {
+		if strings.HasPrefix(item, ".") {
+			return true
+		}
+	}
+	return false
+}
+
 func removeCharset(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		header := w.Header()
@@ -46,7 +56,11 @@ func removeCharset(h http.Handler) http.HandlerFunc {
 			header.Del("Content-Type")
 			header.Add("Content-Type", "text/html")
 		}
-		h.ServeHTTP(w, r)
+		if hasDotPrefix(r.URL.Path) {
+			http.NotFound(w, r)
+		} else {
+			h.ServeHTTP(w, r)
+		}
 	}
 }
 

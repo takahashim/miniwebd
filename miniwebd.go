@@ -18,6 +18,10 @@ var DefaultContentDir = []string{"html", "htdocs", "content"}
 const DefaultHost = "localhost"
 const DefaultPort = 22222
 
+func Log(msg string) {
+	fmt.Println(msg)
+}
+
 func rootDir(path, contentDir string) string {
 	return filepath.Join(filepath.Dir(path), contentDir)
 }
@@ -33,7 +37,7 @@ func openBrowser() {
 	case "darwin":
 		exec.Command("open", url).Start()
 	default:
-		fmt.Println("Your PC is not supported.")
+		Log("Your PC is not supported.")
 	}
 }
 
@@ -51,7 +55,7 @@ func removeCharset(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		header := w.Header()
 		t := time.Now()
-		fmt.Printf("%s %s\n", t.Format("2006-01-02 15:04:05"), string(r.URL.Path))
+		Log(t.Format("2006-01-02 15:04:05") + " " + string(r.URL.Path))
 		if strings.HasSuffix(r.URL.Path, ".html") {
 			header.Del("Content-Type")
 			header.Add("Content-Type", "text/html")
@@ -77,17 +81,17 @@ func findRootDir(path string, dirs []string) (string, error) {
 func doMain() int {
 	path, err := os.Executable()
 	if err != nil {
-		fmt.Println(err.Error())
+		Log(err.Error())
 		return 1
 	}
 	rootDir, err := findRootDir(path, DefaultContentDir)
 	if err != nil {
-		fmt.Printf("コンテンツのディレクトリが見つかりませんでした\n")
+		Log("コンテンツのディレクトリが見つかりませんでした")
 		return 1
 	}
 	http.Handle("/", removeCharset(http.FileServer(http.Dir(rootDir))))
 
-	fmt.Println("サーバ起動中...")
+	Log("サーバ起動中...")
 
 	doneCh := make(chan error)
 

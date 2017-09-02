@@ -6,12 +6,14 @@ import (
 
 func TestRootDir(t *testing.T) {
 	var dirs = []struct {
-		input, result string
+		input, dirname, result string
 	}{
-		{"/tmp/foo/bar", "/tmp/foo/aozorabunko"},
+		{"/tmp/foo/bar", "content", "/tmp/foo/content"},
+		{"/", "content", "/content"},
+		{"/tmp/", "content", "/tmp/content"},
 	}
 	for _, tt := range dirs {
-		if got, want := rootDir(tt.input, "aozorabunko"), tt.result; got != want {
+		if got, want := rootDir(tt.input, tt.dirname), tt.result; got != want {
 			t.Errorf("rootDir(): got %v want %v", got, want)
 		}
 	}

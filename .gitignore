@@ -15,3 +15,9 @@
 
 # local content
 content
+
+# packages
+pkg/
+
+# executable
+miniwebd

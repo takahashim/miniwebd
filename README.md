@@ -10,13 +10,13 @@ Zero configuration web server for static contents.
 
 ## Usage
 
-1. copy content directory as "html" or "htdocs" or "content"
-2. copy miniwebd (or miniwebd.exe in Windows) in the same directory
-3. execute miniwebd
+1. Rename content directory as `html` or `htdocs` or `content`
+2. Copy the file `miniwebd` (or `miniwebd.exe` in Windows) in the same directory of content
+3. Execute `iniwebd`
 
-## Note
+### Note
 
 * The value of `DocumentRoot` and `Port` is pre-defined.
-    * `DocumentRoot`: "html" or "htdocs" or "content"
+    * `DocumentRoot`: `html` or `htdocs` or `content`
     * `Port`: 22222
 * Dot-files and directories cannot be accessed.

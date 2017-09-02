@@ -4,9 +4,11 @@ Zero configuration web server for static contents.
 
 [![GitHub release](http://img.shields.io/github/release/takahashim/miniwebd.svg)][release]
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
+[![CircleCI](https://circleci.com/gh/takahashim/miniwebd.svg?style=svg)][circleci]
 
 [release]: https://github.com/takahashim/miniwebd/releases
 [license]: https://github.com/takahashim/miniwebd/blob/master/LICENSE
+[circleci]: https://circleci.com/gh/takahashim/miniwebd
 
 ## Usage
 

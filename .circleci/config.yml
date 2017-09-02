@@ -4,8 +4,7 @@ jobs:
     working_directory: /go/src/github.com/takahashim/miniwebd
     docker:
       - image: circleci/golang:1.8.0
- steps:
+    steps:
       - checkout
-      - run: go get github.com/takahashim/miniwebd
-      - run: go build github.com/takahashim/miniwebd
+      - run: go get -v -t -d github.com/takahashim/miniwebd
       - run: go test -v github.com/takahashim/miniwebd
